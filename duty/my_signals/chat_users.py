@@ -18,12 +18,14 @@ def users_getter(event: MySignalEvent) -> Tuple[MySignalEvent, List[dict], List[
     for member in all_users['items']:
         if member['member_id'] > 0:
             info = find_member_info(member['member_id'], False)
-            info.update(member)
-            users.append(info)
+            if isinstance(info, dict):
+                info.update(member)
+                users.append(info)
         else:
             info = find_member_info(abs(member['member_id']), True)
-            info.update(member)
-            groups.append(info)
+            if isinstance(info, dict):
+                info.update(member)
+                groups.append(info)
     return event, users, groups
 
 
